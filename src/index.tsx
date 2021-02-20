@@ -4,11 +4,10 @@ import "./index.css";
 import App from "./App";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import Header from "./Components/Header";
-
+import "bulma";
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    
   </React.StrictMode>,
   document.getElementById("root")
 );

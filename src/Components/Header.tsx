@@ -1,21 +1,3 @@
-import {
-  createStyles,
-  makeStyles,
-  Typography,
-  Theme,
-  Button,
-  Menu,
-  MenuItem,
-  AppBar,
-  IconButton,
-  Toolbar,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-} from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
-import MenuIcon from "@material-ui/icons/Menu";
-
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
@@ -43,45 +25,7 @@ const links: HeaderLink[] = [
   },
 ];
 
-const Header: React.FC = (props) => {
-  // const styles = useStyles();
-
-  const HeaderSubElement: React.FC = (props) => {
-    return (
-      <div className="sub-header">
-        <a href="#">Go There</a>
-        <a href="#">Go There 1</a>
-        <a href="#">Go There 2</a>
-      </div>
-    );
-  };
-  const HeaderElements: React.FC = () => {
-    return (
-      <>
-        {links.map((link, index) => {
-          return (
-            <div className="item" key={index}>
-              <Link to={link.url}>{link.title ?? "Empty"}</Link>
-              <div className="sub">
-                <HeaderSubElement />
-              </div>
-            </div>
-          );
-        })}
-      </>
-    );
-  };
-  return (
-    <div className="Header">
-      <div className="main">
-        {/* <Typography variant="h2">Header Element</Typography> */}
-        <HeaderElements />
-      </div>
-    </div>
-  );
-};
-
-const Header2: React.FC = () => {
+const Header: React.FC = () => {
   const Logo = () => {
     return (
       <div className="navbar-brand">
@@ -108,25 +52,26 @@ const Header2: React.FC = () => {
     );
   };
   const Elements = () => {
-    const Basic: React.FC = (props) => {
+    const Basic: React.FC<{ url?: string }> = (props) => {
       return (
-        <a className="navbar-item" href="#">
+        <Link className="navbar-item" to={props.url || "#"}>
           {props.children}
-        </a>
+        </Link>
       );
     };
-    const Composed: React.FC<{ title: string; links: HeaderLink }> = (
+
+    const Composed: React.FC<{ title: string; links: HeaderLink[] }> = (
       props
     ) => {
       return (
         <div className="navbar-item has-dropdown is-hoverable">
           <a className="navbar-link">{props.title}</a>
           <div className="navbar-dropdown">
-            {links.map((link, index) => {
+            {props.links.map(({ url = "#", title = "#" }, index) => {
               return (
-                <a className="navbar-item" href={link.url} key={index}>
-                  {link.title}
-                </a>
+                <Basic url={url} key={index}>
+                  {title}
+                </Basic>
               );
             })}
             <hr className="navbar-divider"></hr>
@@ -134,19 +79,30 @@ const Header2: React.FC = () => {
         </div>
       );
     };
+
     const NavStart = () => {
       return (
         <div className="navbar-start">
-          <Basic>Home</Basic>
-          <Basic>Documentaion</Basic>
-          <Composed title="asd" links={links[links.length-1]} />
-          <Composed title="asd" links={links[links.length-1]} />
+          {links.map(({ title = "#", url = "#", subLinks }, idx) => {
+            if (subLinks) {
+              console.log(subLinks);
+              return <Composed title={title} links={subLinks} key={idx} />;
+            } else {
+              return (
+                <Basic url={url} key={idx}>
+                  {title}
+                </Basic>
+              );
+            }
+          })}
+          {/* <Basic>Home</Basic> */}
+          {/* <Basic>Documentaion</Basic> */}
         </div>
       );
     };
     const NavEnd = () => {
       return (
-        <div className="navbar-end">
+        <div className="navbar-end is-hidden">
           <div className="navbar-item">
             <div className="buttons">
               <a className="button is-primary">
@@ -177,4 +133,4 @@ const Header2: React.FC = () => {
   );
 };
 
-export default Header2;
+export default Header;
