@@ -1,3 +1,33 @@
-Button {
-  display: none;
+.Header {
+  .main {
+    background: linear-gradient(90deg, #023dc3, #00c8e0);
+    height: 40px;
+    color: #fff;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+  }
+
+  .item {
+    display: flex;
+    justify-content: center;
+  }
+
+  .sub {
+    background: white;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  a {
+    text-decoration: unset;
+    color: unset;
+  }
 }
