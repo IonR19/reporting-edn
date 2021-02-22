@@ -85,7 +85,6 @@ const Header: React.FC = () => {
         <div className="navbar-start">
           {links.map(({ title = "#", url = "#", subLinks }, idx) => {
             if (subLinks) {
-              console.log(subLinks);
               return <Composed title={title} links={subLinks} key={idx} />;
             } else {
               return (
