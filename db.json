@@ -4,6 +4,12 @@
       "id": 1,
       "title": "json-server",
       "author": "typicode"
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
     }
   ],
   "comments": [
@@ -15,5 +21,27 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "employees": [
+    {
+      "name": "asd",
+      "civilId": "123",
+      "id": 1
+    },
+    {
+      "name": "a name",
+      "civilId": "125123",
+      "id": 2
+    },
+    {
+      "name": "a nother name",
+      "civilId": "125123",
+      "id": 3
+    },
+    {
+      "name": "even cooler name",
+      "civilId": "125123",
+      "id": 4
+    }
+  ]
 }
