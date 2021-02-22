@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
-import { HashRouter, Switch, Route } from "react-router-dom";
-import Header from "./Components/Header";
+import "./index.css";
+import "regenerator-runtime";
+
 import "bulma";
 ReactDOM.render(
   <React.StrictMode>
