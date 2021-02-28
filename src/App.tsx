@@ -17,11 +17,9 @@ const InnerRouter: React.FC = () => {
 
 export default function App() {
   return (
-    <div>
-      <HashRouter>
-        <Header />
-        <Router />
-      </HashRouter>
-    </div>
+    <HashRouter>
+      <Header />
+      <Router />
+    </HashRouter>
   );
 }
