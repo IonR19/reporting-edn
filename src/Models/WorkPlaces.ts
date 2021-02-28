@@ -1,44 +1,52 @@
 interface WorkPlace {
-  [anything: string]: {
-    title: string;
-  };
+  title: string;
+  value: string;
 }
 
-interface WatchesProps {
-  watch: WorkPlace;
-  section: WorkPlace;
+interface WorkPlaces {
+  watch: WorkPlace[];
+  section: WorkPlace[];
 }
 
-export const WorkPlaces: WatchesProps = {
-  watch: {
-    fr: {
+export const WorkPlaces: WorkPlaces = {
+  watch: [
+    {
+      value: "fr",
       title: "الفروانية",
     },
-    hw: {
+    {
+      value: "hw",
       title: "حولي",
     },
-    jh: {
+    {
+      value: "jh",
       title: "الجهراء",
     },
-    ah: {
+    {
+      value: "ah",
       title: "الاحمدي",
     },
-    mb: {
+    {
+      value: "mb",
       title: "مبارك الكبير",
     },
-    as: {
+    {
+      value: "as",
       title: "العاصمة",
     },
-  },
-  section: {
-    repair: {
+  ],
+  section: [
+    {
+      value: "repair",
       title: "الصيانة والوقاية",
     },
-    civil: {
+    {
+      value: "civil",
       title: "الأعمال المدنية",
     },
-    saftey: {
+    {
+      value: "saftey",
       title: "الامن والسلامة",
     },
-  },
+  ],
 };

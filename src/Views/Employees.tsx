@@ -1,71 +1,32 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { WorkPlaces } from "../Models/WorkPlaces";
 import { ColDef, DataGrid, RowsProp } from "@material-ui/data-grid";
 import axios from "axios";
 import { Formik } from "formik";
 import { API } from "../config";
+import {
+  Link,
+  Route,
+  Switch,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
+import { Button, Input, InputLabel, TextField } from "@material-ui/core";
 
-const Table = () => {
-  const TableHead = () => {
-    return (
-      <thead>
-        <tr>
-          <th>Index</th>
-          <th>Name</th>
-          <th>Civil ID</th>
-          <th>Job Title</th>
-        </tr>
-      </thead>
-    );
-  };
-  const TableFoot = () => {
-    return (
-      <tfoot>
-        <tr>
-          <th>Index</th>
-          <th>Name</th>
-          <th>Civil ID</th>
-          <th>Job Title</th>
-        </tr>
-      </tfoot>
-    );
-  };
-  const TableBody = () => {
-    return (
-      <tbody>
-        <tr>
-          <th>1</th>
-          <td>Name here</td>
-          <td>296012400648</td>
-          <td>Workaholic</td>
-        </tr>
-      </tbody>
-    );
-  };
-  return (
-    <table className="table">
-      <TableHead />
-      <TableBody />
-      <TableFoot />
-    </table>
-  );
-};
 const EmployeeDataGrid = () => {
   let defaultRows: RowsProp = [
     { id: 91, civilId: "Hello", name: "World" },
     { id: 92, civilId: "XGrid", name: "is Awesome" },
     { id: 93, civilId: "Material-UI", name: "is Amazing" },
   ];
-
-  let [rows, setRows] = useState(defaultRows);
-  const [apiCalled, setApiCalled] = useState(false);
-  if (!apiCalled) {
-    axios.get(`${API}/employees`).then(async (res) => {
-      await setApiCalled(true);
+  useEffect(() => {
+    axios.get(`${API}/employees`).then((res) => {
       rows = [...rows, ...res.data];
       setRows(rows);
     });
-  }
+  }, []);
+
+  let [rows, setRows] = useState(defaultRows);
 
   const columns: ColDef[] = [
     { field: "id", headerName: "ID", width: 100 },
@@ -80,97 +41,153 @@ const EmployeeDataGrid = () => {
   );
 };
 
-const FilterComponent: React.FC = () => {
-  let watches = Object.keys(WorkPlaces.watch);
-  let section = Object.keys(WorkPlaces.section);
-  const [selection, setSelection] = useState("select");
-  const [innerSelection, setInnerSelection] = useState("");
-
+interface FilterComponentProps {
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+}
+const FilterComponent: React.FC<FilterComponentProps> = (props) => {
   return (
     <div className="select">
-      <select
-        value={selection}
-        onChange={(e) => {
-          setSelection(e.target.value);
-          setInnerSelection(e.target.selectedOptions[0].dataset.link!);
-        }}
-      >
-        {watches.map((watchCode) => (
-          <option data-link={watchCode} key={watchCode}>
-            {WorkPlaces.watch[watchCode].title}
-          </option>
-        ))}
-        {section.map((sectionCode) => (
-          <option data-link={sectionCode} key={sectionCode}>
-            {WorkPlaces.section[sectionCode].title}
-          </option>
-        ))}
+      <select value={props.value} onChange={props.onChange}>
+        {props.options.map((o, i) => {
+          return (
+            <option key={i} value={o.value}>
+              {o.label}
+            </option>
+          );
+        })}
       </select>
     </div>
   );
 };
 
-const AddEmployeeForm = () => {
+const AddEmployeeForm: React.FC = () => {
   const [values, setValues] = useState({
     name: "",
     civilId: "",
+    fileNo: "",
+    workPlace: "",
   });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios.post(`${API}/employees`, values).then(async (res) => {
-      console.log(res.data);
+      setValues({ civilId: "", name: "", fileNo: "", workPlace: "" });
     });
   };
+
+  interface InputElementProps {
+    label?: string;
+    input?: string;
+    placeholder?: string;
+    value: string;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  }
+  const InputElement: React.FC<InputElementProps> = (props) => {
+
+    return (
+      <div className="field">
+        <label className="label" htmlFor={props.input}>
+          {props.label}
+        </label>
+        <div className="control">
+          <input
+            className="input"
+            type="text"
+            name={props.input}
+            id={props.input}
+            value={props.value}
+            onChange={props.onChange}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  let optionValues: { value: string; label: string }[] = [
+    ...WorkPlaces.watch.map((w) => {
+      return { label: w.title, value: w.value };
+    }),
+    ...WorkPlaces.section.map((w) => {
+      return { label: w.title, value: w.value };
+    }),
+  ];
+
   return (
-    <div style={{ margin: "auto" }}>
+    <div className="box has-shadow rtl">
       <form onSubmit={onSubmit}>
-        <div className="field">
-          <label className="label" htmlFor="name">
-            Full Name
-          </label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              name="name"
+        <div className="columns">
+          <div className="column">
+            <TextField
               id="name"
+              label="Full Name"
               value={values.name}
               onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
           </div>
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="civilId">
-            Civil ID
-          </label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              name="civilId"
+          <div className="column">
+            <TextField
               id="civilId"
+              label="Civil No."
               value={values.civilId}
               onChange={(e) =>
                 setValues({ ...values, civilId: e.target.value })
               }
             />
           </div>
+          <div className="column">
+            <TextField
+              id="fileNo"
+              label="File No."
+              value={values.fileNo}
+              onChange={(e) => setValues({ ...values, fileNo: e.target.value })}
+            />
+          </div>
         </div>
-        <button type="submit">Add</button>
+        <Button type="submit">Add</Button>
       </form>
     </div>
   );
 };
 
-function Employees() {
+function EmployeeSubHeader() {
+  const { url } = useRouteMatch();
   return (
     <div>
-      <FilterComponent />
-      {/* <Table /> */}
-      <EmployeeDataGrid />
-      <AddEmployeeForm />
+      <Link to={`${url}/add`}>
+        <button>Add</button>
+      </Link>
+      <Link to={`${url}/view`}>
+        <button>View</button>
+      </Link>
     </div>
+  );
+}
+function Employees() {
+  const { path, isExact } = useRouteMatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isExact) {
+      history.push("/employees/view");
+    }
+  }, []);
+
+  return (
+    <>
+      <EmployeeSubHeader />
+      <div className="container">
+        <Switch>
+          <Route>
+            <Route path={`${path}/`} exact component={() => <h1>Data</h1>} />
+            <Route path={`${path}/view`} component={EmployeeDataGrid}></Route>
+            <Route path={`${path}/add`} component={AddEmployeeForm}></Route>
+          </Route>
+        </Switch>
+      </div>
+      {/* <Table /> */}
+    </>
   );
 }
 
