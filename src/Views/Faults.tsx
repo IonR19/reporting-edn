@@ -1,31 +1,31 @@
-import { ColDef, DataGrid, RowsProp } from "@material-ui/data-grid";
-import React, { useState } from "react";
-import { Route, Switch, useRouteMatch, Link, NavLink } from "react-router-dom";
+import { ColDef, DataGrid, RowsProp } from '@material-ui/data-grid';
+import React, { useState } from 'react';
+import { Route, Switch, useRouteMatch, Link, NavLink, useHistory } from 'react-router-dom';
 
 const HT: React.FC = () => {
   let defaultRows: RowsProp = [
-    { id: 1, from: "8:00pm", to: "10:05pm", duration: "85min", pmt: 12, sput: 2, uds: 3, ltr: 1 },
-    { id: 2, from: "8:00pm", to: "10:05pm", duration: "85min", pmt: 12, sput: 2, uds: 3, ltr: 1 },
-    { id: 3, from: "8:00pm", to: "10:05pm", duration: "85min", pmt: 12, sput: 2, uds: 3, ltr: 1 },
+    { id: 1, from: '8:00pm', to: '10:05pm', duration: '85min', pmt: 12, sput: 2, uds: 3, ltr: 1 },
+    { id: 2, from: '8:00pm', to: '10:05pm', duration: '85min', pmt: 12, sput: 2, uds: 3, ltr: 1 },
+    { id: 3, from: '8:00pm', to: '10:05pm', duration: '85min', pmt: 12, sput: 2, uds: 3, ltr: 1 },
   ];
 
   let rows = defaultRows;
   // let [rows, setRows] = useState(defaultRows);
 
   const columns: ColDef[] = [
-    { field: "id", headerName: "ID", width: 100 },
-    { field: "from", headerName: "From", width: 140 },
-    { field: "to", headerName: "To", width: 140 },
-    { field: "duration", headerName: "Cut-off Duration", width: 140 },
-    { field: "pmt", headerName: "PMT", width: 100 },
-    { field: "sput", headerName: "SPUR - TR", width: 100 },
-    { field: "uds", headerName: "UDS", width: 100 },
-    { field: "ltr", headerName: "LTR", width: 100 },
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'from', headerName: 'From', width: 140 },
+    { field: 'to', headerName: 'To', width: 140 },
+    { field: 'duration', headerName: 'Cut-off Duration', width: 140 },
+    { field: 'pmt', headerName: 'PMT', width: 100 },
+    { field: 'sput', headerName: 'SPUR - TR', width: 100 },
+    { field: 'uds', headerName: 'UDS', width: 100 },
+    { field: 'ltr', headerName: 'LTR', width: 100 },
   ];
   return (
     <div>
-      <div className="container">
-        <div className="card" style={{ height: "70vh" }}>
+      <div className='container'>
+        <div className='card' style={{ height: '70vh' }}>
           <DataGrid rows={rows} columns={columns}></DataGrid>
         </div>
       </div>
@@ -36,7 +36,7 @@ const HT: React.FC = () => {
 const LT: React.FC = () => {
   const EmergencyReports = () => {
     return (
-      <table className="table is-bordered">
+      <table className='table is-bordered'>
         <thead>
           <tr>
             <th colSpan={100}>Emergency Reports</th>
@@ -63,7 +63,7 @@ const LT: React.FC = () => {
   };
   const DieselGenerator = () => {
     return (
-      <table className="table is-bordered">
+      <table className='table is-bordered'>
         <thead>
           <tr>
             <th colSpan={100}>Diesel Generators</th>
@@ -94,7 +94,7 @@ const LT: React.FC = () => {
   };
   const GeneralFaults = () => {
     return (
-      <table className="table is-bordered">
+      <table className='table is-bordered'>
         <thead>
           <tr>
             <th colSpan={100}>General Fails</th>
@@ -136,7 +136,7 @@ const LT: React.FC = () => {
   };
   const Cutouts = () => {
     return (
-      <table className="table is-bordered">
+      <table className='table is-bordered'>
         <thead>
           <tr>
             <th colSpan={100}>Cutouts Fails</th>
@@ -178,7 +178,7 @@ const LT: React.FC = () => {
   };
   const Meters = () => {
     return (
-      <table className="table is-striped is-bordered is-centered">
+      <table className='table is-striped is-bordered is-centered'>
         <thead>
           <tr>
             <th colSpan={100}>Faulty Meters</th>
@@ -213,44 +213,48 @@ const LT: React.FC = () => {
       </table>
     );
   };
-  const { url } = useRouteMatch();
+  const { path, url } = useRouteMatch();
+  const {
+    location: { pathname },
+  } = useHistory();
+
   return (
     <div>
-      <div className="tabs is-centered is-boxed">
+      <div className='tabs is-centered is-boxed'>
         <ul>
-          <li>
-            <NavLink activeClassName="is-active" to={`${url}/Meters`}>
+          <li className={pathname === `${path}/Meters` ? 'is-active' : ''}>
+            <NavLink activeClassName='is-active' to={`${path}/Meters`}>
               Meters
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="is-active" to={`${url}/Cutouts`}>
+          <li className={pathname === `${path}/Cutouts` ? 'is-active' : ''}>
+            <NavLink activeClassName='is-active' to={`${path}/Cutouts`}>
               Cutouts
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="is-active" to={`${url}/GeneralFaults`}>
+          <li className={pathname === `${path}/GeneralFaults` ? 'is-active' : ''}>
+            <NavLink activeClassName='is-active' to={`${path}/GeneralFaults`}>
               General Faults
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="is-active" to={`${url}/DieselGenerator`}>
+          <li className={pathname === `${path}/DieselGenerator` ? 'is-active' : ''}>
+            <NavLink activeClassName='is-active' to={`${path}/DieselGenerator`}>
               Diesel Generator
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="is-active" to={`${url}/EmergencyReports`}>
+          <li className={pathname === `${path}/EmergencyReports` ? 'is-active' : ''}>
+            <NavLink activeClassName='is-active' to={`${path}/EmergencyReports`}>
               Emergency Reports
             </NavLink>
           </li>
         </ul>
       </div>
       <Switch>
-        <Route path={`${url}/Meters`} component={Meters} />
-        <Route path={`${url}/Cutouts`} component={Cutouts} />
-        <Route path={`${url}/GeneralFaults`} component={GeneralFaults} />
-        <Route path={`${url}/DieselGenerator`} component={DieselGenerator} />
-        <Route path={`${url}/EmergencyReports`} component={EmergencyReports} />
+        <Route path={`${path}/Meters`} component={Meters} />
+        <Route path={`${path}/Cutouts`} component={Cutouts} />
+        <Route path={`${path}/GeneralFaults`} component={GeneralFaults} />
+        <Route path={`${path}/DieselGenerator`} component={DieselGenerator} />
+        <Route path={`${path}/EmergencyReports`} component={EmergencyReports} />
       </Switch>
     </div>
   );
@@ -259,14 +263,14 @@ function Faults(props: any) {
   const { url } = useRouteMatch();
   return (
     <div>
-      <div className="columns">
-        <div className="column">
-          <Link className="button is-primary is-centered" to={`${url}/lt`}>
+      <div className='columns'>
+        <div className='column'>
+          <Link className='button is-primary is-centered' to={`${url}/lt`}>
             Low Tension Faults
           </Link>
         </div>
-        <div className="column">
-          <Link className="button is-primary" to={`${url}/ht`}>
+        <div className='column'>
+          <Link className='button is-primary' to={`${url}/ht`}>
             High Tension Faults
           </Link>
         </div>
