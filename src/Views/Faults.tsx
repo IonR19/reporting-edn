@@ -1,6 +1,6 @@
 import { ColDef, DataGrid, RowsProp } from "@material-ui/data-grid";
 import React, { useState } from "react";
-import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { Route, Switch, useRouteMatch, Link, NavLink } from "react-router-dom";
 
 const HT: React.FC = () => {
   let defaultRows: RowsProp = [
@@ -216,30 +216,42 @@ const LT: React.FC = () => {
   const { url } = useRouteMatch();
   return (
     <div>
-      <div className="tabs is-toggle">
+      <div className="tabs is-centered is-boxed">
         <ul>
           <li>
-            <Link to={`${url}/Meters`}>Meters</Link>
+            <NavLink activeClassName="is-active" to={`${url}/Meters`}>
+              Meters
+            </NavLink>
           </li>
           <li>
-            <Link to={`${url}/Cutouts`}>Cutouts</Link>
+            <NavLink activeClassName="is-active" to={`${url}/Cutouts`}>
+              Cutouts
+            </NavLink>
           </li>
           <li>
-            <Link to={`${url}/GeneralFaults`}>GeneralFaults</Link>
+            <NavLink activeClassName="is-active" to={`${url}/GeneralFaults`}>
+              General Faults
+            </NavLink>
           </li>
           <li>
-            <Link to={`${url}/DieselGenerator`}>DieselGenerator</Link>
+            <NavLink activeClassName="is-active" to={`${url}/DieselGenerator`}>
+              Diesel Generator
+            </NavLink>
           </li>
           <li>
-            <Link to={`${url}/EmergencyReports`}>EmergencyReports</Link>
+            <NavLink activeClassName="is-active" to={`${url}/EmergencyReports`}>
+              Emergency Reports
+            </NavLink>
           </li>
         </ul>
       </div>
-      <Meters />
-      <Cutouts />
-      <GeneralFaults />
-      <DieselGenerator />
-      <EmergencyReports />
+      <Switch>
+        <Route path={`${url}/Meters`} component={Meters} />
+        <Route path={`${url}/Cutouts`} component={Cutouts} />
+        <Route path={`${url}/GeneralFaults`} component={GeneralFaults} />
+        <Route path={`${url}/DieselGenerator`} component={DieselGenerator} />
+        <Route path={`${url}/EmergencyReports`} component={EmergencyReports} />
+      </Switch>
     </div>
   );
 };
