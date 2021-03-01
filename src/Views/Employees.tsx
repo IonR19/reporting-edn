@@ -1,26 +1,20 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { WorkPlaces } from "../Models/WorkPlaces";
-import { ColDef, DataGrid, RowsProp } from "@material-ui/data-grid";
-import axios from "axios";
-import { Formik } from "formik";
-import { API } from "../config";
-import {
-  Link,
-  Route,
-  Switch,
-  useHistory,
-  useRouteMatch,
-} from "react-router-dom";
-import { Button, Input, InputLabel, TextField } from "@material-ui/core";
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { WorkPlaces } from '../Models/WorkPlaces';
+import { ColDef, DataGrid, RowsProp } from '@material-ui/data-grid';
+import axios from 'axios';
+import { Formik } from 'formik';
+import { API } from '../config';
+import { Link, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
+import { Button, FormControl, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 
 const EmployeeDataGrid = () => {
   let defaultRows: RowsProp = [
-    { id: 91, civilId: "Hello", name: "World" },
-    { id: 92, civilId: "XGrid", name: "is Awesome" },
-    { id: 93, civilId: "Material-UI", name: "is Amazing" },
+    { id: 91, civilId: 'Hello', name: 'World' },
+    { id: 92, civilId: 'XGrid', name: 'is Awesome' },
+    { id: 93, civilId: 'Material-UI', name: 'is Amazing' },
   ];
   useEffect(() => {
-    axios.get(`${API}/employees`).then((res) => {
+    axios.get(`${API}/employees`).then(res => {
       rows = [...rows, ...res.data];
       setRows(rows);
     });
@@ -29,13 +23,13 @@ const EmployeeDataGrid = () => {
   let [rows, setRows] = useState(defaultRows);
 
   const columns: ColDef[] = [
-    { field: "id", headerName: "ID", width: 100 },
-    { field: "civilId", headerName: "Civil ID", width: 150, sortable: false },
-    { field: "name", headerName: "Name", width: 220 },
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'civilId', headerName: 'Civil ID', width: 150, sortable: false },
+    { field: 'name', headerName: 'Name', width: 220 },
   ];
 
   return (
-    <div style={{ height: "70vh", width: "90%", margin: "auto" }}>
+    <div style={{ height: '70vh', width: '90%', margin: 'auto' }}>
       <DataGrid columns={columns} rows={rows} />
     </div>
   );
@@ -46,9 +40,9 @@ interface FilterComponentProps {
   value: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
-const FilterComponent: React.FC<FilterComponentProps> = (props) => {
+const FilterComponent: React.FC<FilterComponentProps> = props => {
   return (
-    <div className="select">
+    <div className='select'>
       <select value={props.value} onChange={props.onChange}>
         {props.options.map((o, i) => {
           return (
@@ -63,89 +57,99 @@ const FilterComponent: React.FC<FilterComponentProps> = (props) => {
 };
 
 const AddEmployeeForm: React.FC = () => {
-  const [values, setValues] = useState({
-    name: "",
-    civilId: "",
-    fileNo: "",
-    workPlace: "",
+  const [formValues, setFormValues] = useState({
+    name: '',
+    civilId: '',
+    fileNo: '',
+    workPlace: 'fr',
   });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post(`${API}/employees`, values).then(async (res) => {
-      setValues({ civilId: "", name: "", fileNo: "", workPlace: "" });
-    });
-  };
-
-  interface InputElementProps {
-    label?: string;
-    input?: string;
-    placeholder?: string;
-    value: string;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  }
-  const InputElement: React.FC<InputElementProps> = (props) => {
-
-    return (
-      <div className="field">
-        <label className="label" htmlFor={props.input}>
-          {props.label}
-        </label>
-        <div className="control">
-          <input
-            className="input"
-            type="text"
-            name={props.input}
-            id={props.input}
-            value={props.value}
-            onChange={props.onChange}
-          />
-        </div>
-      </div>
-    );
+    console.log(formValues);
+    // axios.post(`${API}/employees`, values).then(async (res) => {
+    //   setValues({ civilId: "", name: "", fileNo: "", workPlace: "" });
+    // });
   };
 
   let optionValues: { value: string; label: string }[] = [
-    ...WorkPlaces.watch.map((w) => {
-      return { label: w.title, value: w.value };
-    }),
-    ...WorkPlaces.section.map((w) => {
-      return { label: w.title, value: w.value };
-    }),
+    ...WorkPlaces.watch.map(w => ({ label: w.title, value: w.value })),
+    ...WorkPlaces.section.map(w => ({ label: w.title, value: w.value })),
   ];
 
   return (
-    <div className="box has-shadow rtl">
+    <div className='box'>
       <form onSubmit={onSubmit}>
-        <div className="columns">
-          <div className="column">
-            <TextField
-              id="name"
-              label="Full Name"
-              value={values.name}
-              onChange={(e) => setValues({ ...values, name: e.target.value })}
-            />
-          </div>
-          <div className="column">
-            <TextField
-              id="civilId"
-              label="Civil No."
-              value={values.civilId}
-              onChange={(e) =>
-                setValues({ ...values, civilId: e.target.value })
-              }
-            />
-          </div>
-          <div className="column">
-            <TextField
-              id="fileNo"
-              label="File No."
-              value={values.fileNo}
-              onChange={(e) => setValues({ ...values, fileNo: e.target.value })}
+        <div className='field'>
+          <label className='label' htmlFor='name'>
+            Full Name
+          </label>
+          <div className='control'>
+            <input
+              className='input'
+              id='name'
+              type='text'
+              value={formValues.name}
+              onChange={e => setFormValues({ ...formValues, name: e.target.value })}
             />
           </div>
         </div>
-        <Button type="submit">Add</Button>
+        <div className='field'>
+          <label className='label' htmlFor='civilId'>
+            Civil Id
+          </label>
+          <div className='control'>
+            <input
+              className='input'
+              id='civilId'
+              type='text'
+              value={formValues.civilId}
+              onChange={e => setFormValues({ ...formValues, civilId: e.target.value })}
+            />
+          </div>
+        </div>
+        <div className='field'>
+          <label className='label' htmlFor='fileNo'>
+            File No.
+          </label>
+          <div className='control'>
+            <input
+              className='input'
+              id='fileNo'
+              type='text'
+              value={formValues.fileNo}
+              onChange={e => setFormValues({ ...formValues, fileNo: e.target.value })}
+            />
+          </div>
+        </div>
+        <div className='field'>
+          <div className='select'>
+            <label htmlFor='workPlace' className='label'>
+              Work Place
+            </label>
+            <select
+              id='workPlace'
+              className='select'
+              value={formValues.workPlace}
+              onChange={e => {
+                setFormValues({
+                  ...formValues,
+                  workPlace: e.target.value as string,
+                });
+              }}>
+              {optionValues.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className='field'>
+          <button className='button is-dark' type='submit'>
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
@@ -170,14 +174,14 @@ function Employees() {
 
   useEffect(() => {
     if (isExact) {
-      history.push("/employees/view");
+      history.push('/employees/view');
     }
   }, []);
 
   return (
     <>
       <EmployeeSubHeader />
-      <div className="container">
+      <div className='container'>
         <Switch>
           <Route>
             <Route path={`${path}/`} exact component={() => <h1>Data</h1>} />
