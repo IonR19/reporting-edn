@@ -1,36 +1,13 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { WorkPlaces } from '../Models/WorkPlaces';
-import { ColDef, DataGrid, RowsProp } from '@material-ui/data-grid';
 import axios from 'axios';
-import { Formik } from 'formik';
 import { API } from '../config';
 import { Link, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
-import { Button, FormControl, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 
 const EmployeeDataGrid = () => {
-  let defaultRows: RowsProp = [
-    { id: 91, civilId: 'Hello', name: 'World' },
-    { id: 92, civilId: 'XGrid', name: 'is Awesome' },
-    { id: 93, civilId: 'Material-UI', name: 'is Amazing' },
-  ];
-  useEffect(() => {
-    axios.get(`${API}/employees`).then(res => {
-      rows = [...rows, ...res.data];
-      setRows(rows);
-    });
-  }, []);
-
-  let [rows, setRows] = useState(defaultRows);
-
-  const columns: ColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'civilId', headerName: 'Civil ID', width: 150, sortable: false },
-    { field: 'name', headerName: 'Name', width: 220 },
-  ];
-
   return (
-    <div style={{ height: '70vh', width: '90%', margin: 'auto' }}>
-      <DataGrid columns={columns} rows={rows} />
+    <div>
+      <h1>Display Employees here</h1>
     </div>
   );
 };

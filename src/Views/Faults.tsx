@@ -1,33 +1,11 @@
-import { ColDef, DataGrid, RowsProp } from '@material-ui/data-grid';
 import React, { useState } from 'react';
 import { Route, Switch, useRouteMatch, Link, NavLink, useHistory } from 'react-router-dom';
 
 const HT: React.FC = () => {
-  let defaultRows: RowsProp = [
-    { id: 1, from: '8:00pm', to: '10:05pm', duration: '85min', pmt: 12, sput: 2, uds: 3, ltr: 1 },
-    { id: 2, from: '8:00pm', to: '10:05pm', duration: '85min', pmt: 12, sput: 2, uds: 3, ltr: 1 },
-    { id: 3, from: '8:00pm', to: '10:05pm', duration: '85min', pmt: 12, sput: 2, uds: 3, ltr: 1 },
-  ];
-
-  let rows = defaultRows;
-  // let [rows, setRows] = useState(defaultRows);
-
-  const columns: ColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'from', headerName: 'From', width: 140 },
-    { field: 'to', headerName: 'To', width: 140 },
-    { field: 'duration', headerName: 'Cut-off Duration', width: 140 },
-    { field: 'pmt', headerName: 'PMT', width: 100 },
-    { field: 'sput', headerName: 'SPUR - TR', width: 100 },
-    { field: 'uds', headerName: 'UDS', width: 100 },
-    { field: 'ltr', headerName: 'LTR', width: 100 },
-  ];
   return (
     <div>
       <div className='container'>
-        <div className='card' style={{ height: '70vh' }}>
-          <DataGrid rows={rows} columns={columns}></DataGrid>
-        </div>
+        <div className='card' style={{ height: '70vh' }}></div>
       </div>
     </div>
   );
